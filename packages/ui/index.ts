@@ -1,5 +1,3 @@
-import Card from "./src/card.vue";
-import Gradient from "./src/gradient.vue";
-import Page from "./src/page.vue";
+import { Button } from "./components/button";
 
-export { Card, Gradient, Page };
+export { Button }
