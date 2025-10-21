@@ -110,13 +110,17 @@ useIntersectionObserver(
 
 <template>
   <div class="mx-auto max-w-5xl space-y-6 p-4">
-    <div class="flex items-end justify-between gap-4">
-      <div>
+    <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+      <div class="flex items-center justify-between">
         <h1 class="text-2xl font-semibold tracking-tight">Top stories</h1>
+        <ThemeSwitch />
       </div>
-      <div class="flex flex-wrap items-center gap-2">
+
+      <div
+        class="flex w-full items-stretch gap-2 sm:w-auto md:flex-row flex-col sm:items-center"
+      >
         <Select v-model="currentSection">
-          <SelectTrigger class="w-[220px]">
+          <SelectTrigger class="w-full sm:w-56">
             <SelectValue placeholder="Select section" />
           </SelectTrigger>
           <SelectContent>
@@ -130,7 +134,7 @@ useIntersectionObserver(
         </Select>
 
         <Select v-model="currentSource" :disabled="isFetching">
-          <SelectTrigger class="w-[180px]">
+          <SelectTrigger class="w-full sm:w-44">
             <SelectValue placeholder="Select source" />
           </SelectTrigger>
           <SelectContent>
@@ -140,11 +144,16 @@ useIntersectionObserver(
           </SelectContent>
         </Select>
 
-        <form class="flex items-center gap-2" @submit.prevent="applyFilter">
+        <form
+          class="flex w-full items-stretch gap-2 sm:w-auto"
+          @submit.prevent="applyFilter"
+        >
+          <label class="sr-only" for="searchTopStories">Search</label>
           <Input
+            id="searchTopStories"
             v-model="searchInput"
             type="search"
-            class="rounded-md border px-2 py-1"
+            class="w-full rounded-md border px-2 py-1 sm:w-64 md:w-80"
             placeholder="Search titles, abstracts, byline"
             :disabled="isFetching"
           />
@@ -154,6 +163,7 @@ useIntersectionObserver(
             variant="ghost"
             :disabled="isFetching"
             aria-label="Apply search"
+            class="shrink-0"
           >
             <Search />
           </Button>
@@ -162,12 +172,11 @@ useIntersectionObserver(
             variant="ghost"
             @click="resetFilters"
             :disabled="isFetching"
+            class="shrink-0"
           >
             <RotateCcw />
           </Button>
         </form>
-
-        <ThemeSwitch />
       </div>
     </div>
 
