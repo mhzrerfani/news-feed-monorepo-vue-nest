@@ -54,31 +54,7 @@ This project is a full-stack monorepo built to showcase modern web development s
 
 ## Docker Compose
 
-You can run the entire stack using Docker Compose for easy setup. A ready-to-use `docker-compose.yml` is included in the project root:
-
-```yaml
-version: "3.8"
-services:
-  api:
-    build: ./apps/api
-    env_file:
-      - ./apps/api/.env
-    ports:
-      - "3010:3010"
-    restart: unless-stopped
-    depends_on:
-      - web
-  web:
-    build: ./apps/web
-    env_file:
-      - ./apps/web/.env
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-    depends_on:
-      - api
-```
-
+You can run the entire stack using Docker Compose for easy setup.
 To build and start all services:
 
 ```bash
