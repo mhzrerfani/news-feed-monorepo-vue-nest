@@ -1,6 +1,6 @@
 # News Feed Monorepo
 
-This project is a full-stack monorepo built to showcase modern web development skills using Vue 3 (Vite), NestJS, and Turborepo. It aggregates top news stories from multiple providers (NYTimes, The Guardian) via their APIs and displays them in a user-friendly web interface.
+This project is a full-stack monorepo built using Vue 3 (Vite), NestJS, Tailwindcss 4, shadcn vue and Turborepo. It aggregates top news stories from multiple providers (NYTimes, The Guardian) via their APIs and displays them in a user-friendly web interface.
 
 ## Project Structure
 
