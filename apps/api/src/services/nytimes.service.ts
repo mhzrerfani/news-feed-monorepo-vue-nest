@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -65,26 +60,6 @@ export class NytimesService implements NewsProvider {
     return results.map(this.mapNytToNewsStory);
   }
 
-  async search(
-    query: string,
-    from?: string,
-    to?: string,
-  ): Promise<NewsStory[]> {
-    const url = `${BASE_URL}/search/v2/articlesearch.json`;
-    const { data } = await firstValueFrom(
-      this.http.get(url, {
-        params: {
-          'api-key': this.apiKey,
-          q: query,
-          ...(from && { begin_date: from.replace(/-/g, '') }),
-          ...(to && { end_date: to.replace(/-/g, '') }),
-        },
-      }),
-    );
-
-    return (data?.response?.docs ?? []).map(this.mapNytSearchToNewsStory);
-  }
-
   private bestImage(media?: NytMultimedia[]): string {
     if (!media || media.length === 0) return '';
     // Prefer threeByTwoSmallAt2X, else the largest (Super Jumbo), else first
@@ -110,21 +85,4 @@ export class NytimesService implements NewsProvider {
       source: 'nytimes',
     };
   };
-
-  private mapNytSearchToNewsStory(doc: any): NewsStory {
-    return {
-      id: doc._id,
-      title: doc.headline?.main,
-      abstract: doc.abstract,
-      url: doc.web_url,
-      publishedDate: doc.pub_date,
-      section: doc.section_name,
-      subsection: doc.subsection_name,
-      byline: doc.byline?.original,
-      cover: doc.multimedia
-        ? `https://www.nytimes.com/${doc.multimedia[0].url}`
-        : null,
-      source: 'nytimes',
-    };
-  }
 }

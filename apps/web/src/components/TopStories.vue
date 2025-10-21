@@ -24,6 +24,7 @@ import { RotateCcw, Search } from "lucide-vue-next";
 const currentSection = ref<string>("random");
 const currentSource = ref<string>("all");
 const query = ref("");
+const searchInput = ref("");
 const step = ref(10);
 
 const base = computed(() => `${API_URL}/top-stories`);
@@ -76,6 +77,8 @@ const stories = computed(() => {
 const isInitialLoading = computed(() => isLoading && !data?.value);
 
 function applyFilter() {
+  // apply immediately and clear debounce
+  query.value = searchInput.value;
   refetch(); // queryKey changed via v-models → pages reset automatically
 }
 
@@ -139,13 +142,14 @@ useIntersectionObserver(
 
         <form class="flex items-center gap-2" @submit.prevent="applyFilter">
           <Input
-            v-model="query"
+            v-model="searchInput"
             type="search"
             class="rounded-md border px-2 py-1"
             placeholder="Search titles, abstracts, byline"
             :disabled="isFetching"
           />
           <Button
+            type="submit"
             size="sm"
             variant="ghost"
             :disabled="isFetching"

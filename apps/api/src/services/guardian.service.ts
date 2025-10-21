@@ -71,27 +71,6 @@ export class GuardianService implements NewsProvider {
     return results.map(this.mapGuardianToNewsStory);
   }
 
-  async search(
-    query: string,
-    from?: string,
-    to?: string,
-  ): Promise<NewsStory[]> {
-    const url = `${BASE_URL}/search`;
-    const { data } = await firstValueFrom(
-      this.http.get<GuardianResponse<GuardianStory>>(url, {
-        params: {
-          'api-key': this.apiKey,
-          q: query,
-          'show-fields': 'trailText,byline,thumbnail',
-          ...(from && { 'from-date': from }),
-          ...(to && { 'to-date': to }),
-        },
-      }),
-    );
-
-    return data.response.results.map(this.mapGuardianToNewsStory);
-  }
-
   private mapGuardianToNewsStory = (story: GuardianStory): NewsStory => {
     return {
       id: story.id,

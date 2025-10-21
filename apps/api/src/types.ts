@@ -6,7 +6,6 @@ export interface NewsProvider {
     from?: string,
     to?: string,
   ): Promise<NewsStory[]>;
-  search(query: string, from?: string, to?: string): Promise<NewsStory[]>;
 }
 
 export interface NewsStory {

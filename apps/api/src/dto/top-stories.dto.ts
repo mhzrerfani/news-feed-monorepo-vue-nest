@@ -1,4 +1,12 @@
-import { IsDateString, IsIn, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsIn,
+  IsOptional,
+  IsString,
+  IsInt,
+  Min,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 import { SECTIONS, SOURCES } from '../constants';
 
 export class TopStoriesQueryDto {
@@ -10,10 +18,19 @@ export class TopStoriesQueryDto {
   @IsIn(SOURCES as unknown as string[])
   source?: (typeof SOURCES)[number];
 
-  @IsOptional() @IsString() q?: string; // filter title/abstract/byline
-  @IsOptional() @IsString() subsection?: string; // optional subsection match
-  @IsOptional() @IsDateString() from?: string; // ISO
-  @IsOptional() @IsDateString() to?: string; // ISO
-  @IsOptional() @IsString() page?: string;
-  @IsOptional() @IsString() step?: string;
+  @IsOptional() @IsString() q?: string;
+  @IsOptional() @IsString() subsection?: string;
+  @IsOptional() @IsDateString() from?: string;
+  @IsOptional() @IsDateString() to?: string;
+  @IsOptional()
+  @Transform(({ value }: { value: string }) => parseInt(value, 10))
+  @IsInt()
+  @Min(1)
+  page?: number;
+
+  @IsOptional()
+  @Transform(({ value }: { value: string }) => parseInt(value, 10))
+  @IsInt()
+  @Min(1)
+  step?: number;
 }
