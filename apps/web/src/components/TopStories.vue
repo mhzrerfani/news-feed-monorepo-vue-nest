@@ -119,30 +119,32 @@ useIntersectionObserver(
       <div
         class="flex w-full items-stretch gap-2 sm:w-auto md:flex-row flex-col sm:items-center"
       >
-        <Select v-model="currentSection">
-          <SelectTrigger class="w-full sm:w-56">
-            <SelectValue placeholder="Select section" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All sections</SelectItem>
-            <SelectItem value="random">Random</SelectItem>
-            <SelectItem v-for="s in SECTIONS" :key="s.value" :value="s.value">
-              <span class="mr-2">{{ s.icon }}</span>
-              {{ s.label }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <div class="flex gap-2 items-center w-full">
+          <Select v-model="currentSection">
+            <SelectTrigger class="w-full sm:w-56">
+              <SelectValue placeholder="Select section" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All sections</SelectItem>
+              <SelectItem value="random">Random</SelectItem>
+              <SelectItem v-for="s in SECTIONS" :key="s.value" :value="s.value">
+                <span class="mr-2">{{ s.icon }}</span>
+                {{ s.label }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
-        <Select v-model="currentSource" :disabled="isFetching">
-          <SelectTrigger class="w-full sm:w-44">
-            <SelectValue placeholder="Select source" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem v-for="s in SOURCES" :key="s.value" :value="s.value">
-              {{ s.label }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+          <Select v-model="currentSource" :disabled="isFetching">
+            <SelectTrigger class="w-full sm:w-44">
+              <SelectValue placeholder="Select source" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="s in SOURCES" :key="s.value" :value="s.value">
+                {{ s.label }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         <form
           class="flex w-full items-stretch gap-2 sm:w-auto"
