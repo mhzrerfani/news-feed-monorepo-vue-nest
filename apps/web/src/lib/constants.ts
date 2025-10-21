@@ -13,4 +13,4 @@ export const SOURCES = [
     { value: 'guardian', label: 'The Guardian', icon: '🟩' },
 ] as const;
 
-export const API_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : import.meta.env.DEV ? "http://localhost:3010" : "https://news-feed-monorepo-vue-nest-api.vercel.app/";
+export const API_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : import.meta.env.DEV ? "http://localhost:3010" : "https://news-feed-monorepo-vue-nest-api.vercel.app";
