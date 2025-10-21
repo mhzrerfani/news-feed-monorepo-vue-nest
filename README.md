@@ -1,84 +1,97 @@
-# Turborepo VueJS/NuxtJS starter
+# News Feed Monorepo
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+This project is a full-stack monorepo built to showcase modern web development skills using Vue 3 (Vite), NestJS, and Turborepo. It aggregates top news stories from multiple providers (NYTimes, The Guardian) via their APIs and displays them in a user-friendly web interface.
 
-## Using this example
+## Project Structure
 
-Run the following command:
+- `apps/`
+  - `api/`: NestJS backend service. Fetches news from external providers (NYTimes, Guardian) and exposes REST endpoints.
+  - `web/`: Vue 3 frontend app (Vite). Consumes the API and displays news stories.
+- `packages/`
+  - `ui/`: Shared Vue component library.
+  - `eslint-config-custom/`: Shared ESLint config.
+  - `tsconfig/`: Shared TypeScript config.
 
-```sh
-npx create-turbo@latest -e with-vue-nuxt
+## Running Locally
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [pnpm](https://pnpm.io/) (monorepo package manager)
+
+### Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repo-url>
+   cd news-feed-monorepo-vue-nest
+   ```
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Get API keys for providers:
+
+   - [NYTimes Developer Portal](https://developer.nytimes.com/)
+   - [The Guardian Open Platform](https://open-platform.theguardian.com/)
+
+   Copy `.env.example` to `.env` in both `apps/api` and `apps/web`, then fill in your keys:
+
+   ```bash
+   cp apps/api/.env.example apps/api/.env
+   cp apps/web/.env.example apps/web/.env
+   # Edit apps/api/.env and add your NYT_API_KEY and GUARDIAN_API_KEY
+   ```
+
+### Start Development
+
+- Run both backend and frontend in parallel:
+  ```bash
+  pnpm dev
+  ```
+  - API: http://localhost:3010
+  - Web: http://localhost:3000
+
+## Docker Compose
+
+You can run the entire stack using Docker Compose for easy setup. A ready-to-use `docker-compose.yml` is included in the project root:
+
+```yaml
+version: "3.8"
+services:
+  api:
+    build: ./apps/api
+    env_file:
+      - ./apps/api/.env
+    ports:
+      - "3010:3010"
+    restart: unless-stopped
+    depends_on:
+      - web
+  web:
+    build: ./apps/web
+    env_file:
+      - ./apps/web/.env
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - api
 ```
 
-## What's inside?
+To build and start all services:
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Nuxt](https://nuxt.com/) app
-- `web`: another [Vue3](https://vuejs.org/) app
-- `ui`: a stub Vue component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `@nuxtjs/eslint-config-typescript` and `@vue/eslint-config-typescript`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+docker-compose up --build
 ```
 
-### Develop
+## Notes
 
-To develop all apps and packages, run the following command:
+- **API Keys Required:** You must provide your own API keys for NYTimes and The Guardian in `apps/api/.env`.
+- **Monorepo:** Managed with Turborepo and pnpm workspaces for fast builds and shared code.
+- **Frontend:** Vue 3 + Vite for fast development and HMR.
+- **Backend:** NestJS for scalable API development.
 
-```
-cd my-turborepo
-pnpm dev
-```
+---
 
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+Feel free to reach out if you have any questions or feedback!
