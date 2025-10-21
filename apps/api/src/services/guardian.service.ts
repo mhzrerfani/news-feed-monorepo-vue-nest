@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { NewsProvider, NewsStory } from './types';
+import { NewsProvider, NewsStory } from '../types';
 
 const BASE_URL = 'https://content.guardianapis.com';
 

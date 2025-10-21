@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { TopStoriesQueryDto } from './dto/top-stories.dto';
+import { SECTIONS } from './constants';
 import { SearchQueryDto } from './dto/search.dto';
 import { NytimesService } from './services/nytimes.service';
 import { GuardianService } from './services/guardian.service';
-import { NewsStory } from './services/types';
+import { NewsStory } from './types';
 
 @Injectable()
 export class AppService {
@@ -13,29 +14,31 @@ export class AppService {
   ) { }
 
   async topStories(q: TopStoriesQueryDto): Promise<NewsStory[]> {
-    let results: NewsStory[] = [];
+    const section =
+      q.section ?? SECTIONS[Math.floor(Math.random() * SECTIONS.length)];
 
+    const tasks: Array<Promise<NewsStory[]>> = [];
     if (!q.source || q.source === 'nytimes') {
-      const nytResults = await this.nytimes.topStories(
-        q.section,
-        q.subsection,
-        q.q,
-        q.from,
-        q.to,
+      tasks.push(
+        this.nytimes.topStories(section, q.subsection, q.q, q.from, q.to),
       );
-      results = [...results, ...nytResults];
+    }
+    if (!q.source || q.source === 'guardian') {
+      tasks.push(
+        this.guardian.topStories(section, q.subsection, q.q, q.from, q.to),
+      );
     }
 
-    if (!q.source || q.source === 'guardian') {
-      const guardianResults = await this.guardian.topStories(
-        q.section,
-        q.subsection,
-        q.q,
-        q.from,
-        q.to,
-      );
-      results = [...results, ...guardianResults];
-    }
+    const settled = await Promise.allSettled(tasks);
+    const results: NewsStory[] = [];
+
+    settled.forEach((r, idx) => {
+      if (r.status === 'fulfilled') {
+        results.push(...r.value);
+      } else {
+        console.warn(`Provider ${idx} failed:`, r.reason);
+      }
+    });
 
     return results.sort(
       (a, b) =>

@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { NewsProvider, NewsStory } from './types';
-import { NytTopStory, NytMultimedia } from '../types';
+import { NewsProvider, NewsStory, NytTopStory, NytMultimedia } from '../types';
 
 const BASE_URL = 'https://api.nytimes.com/svc';
 

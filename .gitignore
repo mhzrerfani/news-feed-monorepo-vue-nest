@@ -5,8 +5,6 @@ node_modules
 .pnp
 .pnp.js
 
-apps/api/dist
-
 # testing
 coverage
 
@@ -15,6 +13,10 @@ coverage
 .output/
 out/
 build
+apps/**/dist
+packages/**/dist
+packages/**/build
+
 
 # misc
 .DS_Store

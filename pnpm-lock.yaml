@@ -108,6 +108,12 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.90.5
         version: 5.90.5(vue@3.4.21)
+      '@vueuse/core':
+        specifier: ^13.9.0
+        version: 13.9.0(vue@3.4.21)
+      lucide-vue-next:
+        specifier: ^0.546.0
+        version: 0.546.0(vue@3.4.21)
       ui:
         specifier: workspace:*
         version: link:../../packages/ui

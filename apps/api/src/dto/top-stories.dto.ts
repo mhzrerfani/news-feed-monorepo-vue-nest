@@ -1,39 +1,10 @@
 import { IsDateString, IsIn, IsOptional, IsString } from 'class-validator';
-
-const SECTIONS = [
-  'arts',
-  'automobiles',
-  'books',
-  'business',
-  'fashion',
-  'food',
-  'health',
-  'home',
-  'insider',
-  'magazine',
-  'movies',
-  'nyregion',
-  'obituaries',
-  'opinion',
-  'politics',
-  'realestate',
-  'science',
-  'sports',
-  'sundayreview',
-  'technology',
-  'theater',
-  't-magazine',
-  'travel',
-  'upshot',
-  'us',
-  'world',
-] as const;
-
-const SOURCES = ['nytimes', 'guardian'] as const;
+import { SECTIONS, SOURCES } from '../constants';
 
 export class TopStoriesQueryDto {
+  @IsOptional()
   @IsIn(SECTIONS as unknown as string[])
-  section!: (typeof SECTIONS)[number];
+  section?: (typeof SECTIONS)[number];
 
   @IsOptional()
   @IsIn(SOURCES as unknown as string[])
